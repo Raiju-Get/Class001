@@ -8,7 +8,8 @@ public class BallScript : MonoBehaviour
     [SerializeField] float offset;
     [SerializeField] Rigidbody2D rigidbody2D;
     [SerializeField] bool isShot;
-
+    [SerializeField] float jumpForce;
+    [SerializeField] GameManager gameManager;
 
     private void Start()
     {
@@ -20,12 +21,27 @@ public class BallScript : MonoBehaviour
         if (!isShot)
         {
             this.transform.position = new Vector3(paddle.transform.position.x, paddle.transform.position.y + offset, 0);
-        }
+        
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                isShot = true;
 
-        if (Input.GetKeyDown(KeyCode.Space))
+                float randomX = Random.Range(-1, 2);
+                rigidbody2D.AddForce(new Vector2(randomX * 10, jumpForce), ForceMode2D.Impulse);
+            }
+        }
+      
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Destroyer"))
         {
-            isShot= true;
-            rigidbody2D.AddForce(new Vector2(0,50),ForceMode2D.Impulse);
+            isShot = false;
+            this.transform.position = new Vector3(paddle.transform.position.x, paddle.transform.position.y + offset, 0);
+            rigidbody2D.velocity = Vector2.zero;
+            gameManager.Lives--;
+            gameManager.GetLives();
         }
     }
 }
