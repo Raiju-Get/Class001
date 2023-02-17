@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,6 +9,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] int lives = 3;
     [SerializeField] TextMeshProUGUI livesText;
+    [SerializeField] public int numberOfBlock;
 
     public int Lives
     {
@@ -30,5 +30,10 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadScene(0);
         }
+    }
+
+    public void NextLevel()
+    {
+        Debug.Log("You win");
     }
 }
